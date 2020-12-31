@@ -1,26 +1,28 @@
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
-#include <ESP8266WebServer.h>
+#include <WiFi.h>
+#include <ESPmDNS.h>
+#include <WiFiClient.h>
+#include <WebServer.h>
 #include <Adafruit_NeoPixel.h>
 #include "index.h"
 
-const char* ssid = "xxxxxx";
-const char* pass = "xxxxxx";
+const char* ssid = "xxxxxxxx";
+const char* pass = "xxxxxxxx";
 const char* host_name = "esp-tally";
 
 //LED config
-const int led = 2;    //D4 wemos mini also on board led
-#define LED_PIN    15   //D8 wemos mini for NeoPixel
-#define LED_COUNT 10
+const int led = 13;    //D4 wemos mini also on board led
+#define LED_PIN    12   //D8 wemos mini for NeoPixel
+#define LED_COUNT 20
 
 // group[x][2] x is number of groups
-int group[2][2] = {{0,5},{5,5}}; //{start,count} for each group
+int group[2][2] = {{0,10},{10,10}}; //{start,count} for each group
+//int group[1][2] = {{0,20}}; //{start,count} for each group
 
 // Web server port
 const uint16_t port = 80;
 
 // Web server object declaration
-ESP8266WebServer server(port);
+WebServer server(port);
 //NeoPixel onject declaration
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -44,7 +46,7 @@ void neo_set(int grp, int r, int g, int b){
  */
 void handleGET()
 {
-    /*String message = "get args: ";
+    String message = "get args: ";
     for (int i = 0; i < server.args(); i++) {
 
     message += "Arg no. " + (String)i + " –> ";   //Include the current iteration value
@@ -52,7 +54,7 @@ void handleGET()
     message += server.arg(i) + "\n";              //Get the value of the parameter
     
     } 
-    Serial.print(message);*/
+    Serial.print(message);
     
     // *** Turn on or off the LED ***
     if (server.arg("led") == "ON"){
@@ -74,7 +76,7 @@ void handleGET()
 }
 
 void handlePOST() {
-    /*String message = "post args: ";
+    String message = "post args: ";
     for (int i = 0; i < server.args(); i++) {
 
     message += "Arg no. " + (String)i + " –> ";   //Include the current iteration value
@@ -82,7 +84,7 @@ void handlePOST() {
     message += server.arg(i) + "\n";              //Get the value of the parameter
     
     } 
-    Serial.print(message);*/
+    Serial.print(message);
     
     if (server.arg("led") == "ON"){
         int r_val = server.arg("red").toInt();
@@ -111,12 +113,12 @@ void setup()
     // Set pin as output
     pinMode(led, OUTPUT);
     // Setup serial communication
-    Serial.begin(74880);
+    Serial.begin(115200);
  
     // *** Connect to a WiFi acces point ***
     
     Serial.printf("Connecting to %s ", ssid);
-    WiFi.hostname(host_name);
+    WiFi.setHostname(host_name);
     
     WiFi.begin(ssid, pass);
     while (WiFi.status() != WL_CONNECTED)
@@ -141,6 +143,6 @@ void setup()
  
 void loop()
 {
-    MDNS.update();
+    //MDNS.update();
     server.handleClient();
 }
