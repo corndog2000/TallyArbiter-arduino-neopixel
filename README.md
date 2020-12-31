@@ -1,9 +1,11 @@
-# TallyArbiter-arduino-neopixel
+# Based on [NoahCallaway's TallyArbiter-arduino-neopixel](https://github.com/NoahCallaway/TallyArbiter-arduino-neopixel). Modified for use with ESP32.
+
+### TallyArbiter-arduino-neopixel
 
 This project allows an ESP8266 (Wemos D1 Mini) to respond to POST requests from [Joseph Adam's Tally Arbiter](https://github.com/josephdadams/TallyArbiter) in order to control Neopixel Strips.
 
 
-## Arduino Configuration
+### Arduino Configuration
 
 In the main `Arduino_Tally.ino` some values need to be configured.
 I used the [Arduino IDE](https://www.arduino.cc/en/software) to make changes and Flash the Wemos D1 Mini.
